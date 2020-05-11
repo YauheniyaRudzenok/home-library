@@ -7,6 +7,7 @@ class SynologyWrapper():
 
     def __init__(self):
         self._config = ConfigService()
+        #self._fl = filestation.FileStation()
         self._fl = filestation.FileStation(self._config.ds_ip(), self._config.ds_port(), self._config.ds_user(), self._config.ds_password())
 
 

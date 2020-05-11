@@ -16,11 +16,11 @@ class ConfigService():
 
 
     def ds_password(self):
-        return os.environ('HL_DS_USER_PASSWORD')
+        return os.environ.get('HL_DS_USER_PASSWORD')
 
 
     def library_path(self):
-        return os.environ('HL_PATH')
+        return os.environ.get('HL_PATH')
 
 
     def db_path(self):

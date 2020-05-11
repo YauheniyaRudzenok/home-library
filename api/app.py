@@ -1,13 +1,15 @@
-from flask import Flask
+from flask import Flask, jsonify
+from flask_cors import CORS
+
 from config import Config
 from database.db import db
-from services.indexer import Indexer
 
 import commands
 import api
 
 
 app = Flask(__name__)
+CORS(app)
 app.config.from_object(Config())
 app.register_blueprint(commands.bp)
 app.register_blueprint(api.bp)

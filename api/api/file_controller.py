@@ -1,4 +1,4 @@
-from flask_restplus import Resource, Namespace, fields
+from flask_restx import Resource, Namespace, fields, cors
 from database.models import File
 
 
@@ -17,7 +17,7 @@ _file = FileDto.file
 
 @api.route('/')
 class FileList(Resource):
-    @api.marshal_list_with(_file, envelope='data')
+    @api.marshal_list_with(_file)
     def get(self):
         return File.query.all()
 
