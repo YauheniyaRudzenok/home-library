@@ -1,26 +1,20 @@
 import os
 
+from database.db import db
+from database.models import Setting
+
 
 class ConfigService():
 
-    def ds_ip(self):
-        return self.__env_or_default__('HL_DS_IP', '127.0.0.1')
+    INDEXED_KEY = "indexed"
 
 
-    def ds_port(self):
-        return self.__env_or_default__('HL_DS_PORT', 5000)
+    def get_indexed(self):
+        return self._get_settings(self.INDEXED_KEY, False)    
 
 
-    def ds_user(self):
-        return self.__env_or_default__('HL_DS_USER', 'admin')
-
-
-    def ds_password(self):
-        return os.environ.get('HL_DS_USER_PASSWORD')
-
-
-    def library_path(self):
-        return os.environ.get('HL_PATH')
+    def set_indexed(self):
+        self._set_settings(self.INDEXED_KEY, True)
 
 
     def db_path(self):
@@ -29,8 +23,18 @@ class ConfigService():
 
     def base_path(self):
         return os.getcwd()
+        
+
+    def _get_settings(self, key, default):
+        setting = Setting.query.filter_by(key=key).first()
+        return setting.value if setting else default
 
 
-    def __env_or_default__(self, key, default):
-        value=os.environ.get(key)
-        return value if value is not None else default
+    def _set_settings(self, key, value):
+        setting = Setting.query.filter_by(key=key).first()
+        if setting:
+            setting.value = value
+        else:
+            setting = Setting(key = key, value = value)
+            db.session.add(setting)
+        db.session.commit()
