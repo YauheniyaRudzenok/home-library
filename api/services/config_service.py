@@ -11,7 +11,7 @@ class ConfigService():
 
 
     def get_indexed(self):
-        return bool(util.strtobool(self._get_settings(self.INDEXED_KEY, 0)))    
+        return bool(util.strtobool(self._get_settings(self.INDEXED_KEY, "False")))    
 
 
     def set_indexed(self):

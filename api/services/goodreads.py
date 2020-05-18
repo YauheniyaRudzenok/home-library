@@ -139,62 +139,65 @@ class Book(GoodreadsData):
     def title(self):
         return self._request("title")
     
-    def isbn(self):
-        return self._request("isbn")
+    # def isbn(self):
+    #     return self._request("isbn")
     
-    def country(self):
-        return self._request("country_code")
+    # def country(self):
+    #     return self._request("country_code")
 
-    def year(self):
-        return self._request("publication_year")
+    # def year(self):
+    #     return self._request("publication_year")
 
-    def month(self):
-        return self._request("publication_month")
+    # def month(self):
+    #     return self._request("publication_month")
     
-    def day(self):
-        return self._request("publication_day")
+    # def day(self):
+    #     return self._request("publication_day")
     
-    def publisher(self):
-        return self._request("publisher")
+    # def publisher(self):
+    #     return self._request("publisher")
     
-    def language(self):
-        return self._request("language_code")
+    # def language(self):
+    #     return self._request("language_code")
     
-    def description(self):
-        return self._request("description")
+    # def description(self):
+    #     return self._request("description")
     
-    def average_rating(self):
-        return self._request("average_rating")
+    # def average_rating(self):
+    #     return self._request("average_rating")
     
-    def page_count(self):
-        return self._request("num_pages")
+    # def page_count(self):
+    #     return self._request("num_pages")
 
-    def format(self):
-        return self._request("format")
+    # def format(self):
+    #     return self._request("format")
     
-    def edition_information(self):
-        return self._request("edition_information")
+    # def edition_information(self):
+    #     return self._request("edition_information")
     
-    def ratings_count(self):
-        return self._request("ratings_count")
+    # def ratings_count(self):
+    #     return self._request("ratings_count")
     
-    def review_count(self):
-        return self._request("text_reviews_count")
+    # def review_count(self):
+    #     return self._request("text_reviews_count")
 
-    def goodreads_url(self):
-        return self._request("url")
-    
-    def authors(self):
-        authors = self._request("authors", returnText=False)
-        return self.parseDataList(authors, Author)
-    
-    def popular_shelves(self):
-        shelves = self._request("popular_shelves", returnText=False)
-        return self.parseDataList(shelves, Shelf)
+    # def goodreads_url(self):
+    #     return self._request("url")
 
-    def similar_books(self):
-        books = self._request("similar_books", returnText=False)
-        return self.parseDataList(books, Book)
+    def image_url(self):
+        return self._request("image_url")
+    
+    # def authors(self):
+    #     authors = self._request("authors", returnText=False)
+    #     return self.parseDataList(authors, Author)
+    
+    # def popular_shelves(self):
+    #     shelves = self._request("popular_shelves", returnText=False)
+    #     return self.parseDataList(shelves, Shelf)
+
+    # def similar_books(self):
+    #     books = self._request("similar_books", returnText=False)
+    #     return self.parseDataList(books, Book)
 
 class Shelf(GoodreadsData):
     def __init__(self, id, incomplete_tree=None):
