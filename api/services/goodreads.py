@@ -2,7 +2,6 @@
 # https://github.com/architectdrone/goodreads.py/blob/master/goodreads.py
 
 import requests
-import xmltodict
 from xml.etree import ElementTree
 
 

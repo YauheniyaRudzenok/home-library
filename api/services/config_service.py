@@ -1,4 +1,5 @@
 import os
+from distutils import util
 
 from database.db import db
 from database.models import Setting
@@ -10,7 +11,7 @@ class ConfigService():
 
 
     def get_indexed(self):
-        return self._get_settings(self.INDEXED_KEY, False)    
+        return bool(util.strtobool(self._get_settings(self.INDEXED_KEY, 0)))    
 
 
     def set_indexed(self):
