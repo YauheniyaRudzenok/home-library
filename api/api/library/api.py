@@ -1,7 +1,7 @@
 from flask import request
 from flask_restx import Resource
 
-from .library_dto import LibraryDto
+from .dto import LibraryDto
 from ..helpers import bad_request, created, deleted, not_found
 from database.repositories.library_repository import LibraryRepository
 

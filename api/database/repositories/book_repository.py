@@ -52,6 +52,13 @@ class BookRepository:
         self._db.session.commit()
 
 
+    def get_list(self, offset:int, count:int):
+        return {
+            "data": Book.query.offset(offset).limit(count).all(),
+            "count": Book.query.count()
+        }
+
+
     def _parse_params(self, **params):
         goodreads_id = params["goodreads_id"] if "goodreads_id" in params else None
         file = File(file_name = params["file_name"],
