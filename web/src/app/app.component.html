@@ -1,3 +1,17 @@
-<div>
-  sdfsdfsdfs
-</div>
+<header>
+  <div class="container">
+    <div class="branding">
+      <a routerLink="/">Home Library</a>
+    </div>
+    <div class="search">
+      <input type="text" placeholder="Search...">
+    </div>
+    <div class="actions">
+      <a routerLink="/manage-library"><i class="pi pi-cog"></i></a>
+    </div>
+  </div>
+</header>
+
+<section>
+  <router-outlet></router-outlet>
+</section>
