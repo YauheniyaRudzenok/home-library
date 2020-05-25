@@ -18,6 +18,11 @@ body {
     background-color: $color-background;
 }
 
+h4 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 header {
     background-color: darken($blue, 15%);
     min-height: 55px;
@@ -73,4 +78,9 @@ header {
 .container {
     width: 80%;
     margin: 0 auto;
-  }
+}
+
+.row-100 { 
+    width: 100%;
+    padding: 2px;
+}
