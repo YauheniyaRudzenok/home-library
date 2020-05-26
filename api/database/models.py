@@ -20,6 +20,7 @@ class File(db.Model):
     image_name = Column(String)
     library_id = Column(Integer, ForeignKey("libraries.id"))
     book_id = Column(Integer, ForeignKey('books.id'))
+    book = relationship("Book", single_parent=True, cascade="delete")
 
 
 class Setting(db.Model):

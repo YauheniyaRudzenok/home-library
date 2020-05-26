@@ -1,6 +1,8 @@
 from flask import request
 from flask_restx import Resource
 
+import os
+
 from .dto import LibraryDto
 from ..helpers import bad_request, created, deleted, not_found
 from database.repositories.library_repository import LibraryRepository
@@ -17,18 +19,24 @@ class LibraryList(Resource):
     def get(self):
         return _repository.get_all()
 
-    
+
+    @api_ns.doc(responses = {
+        201: 'Created', 
+        400: 'Bad Request',
+        404: 'Library does not found'})  
     @api_ns.expect(_dto)
-    @api_ns.marshal_with(_dto, code=201)
     def post(self):
         if request.json:
             path = request.json["path"]
+            root = os.path.abspath(os.sep)
+            if path.startswith(root) is False:
+                path = os.path.join(root, path)
             library = _repository.get_by_path(path)
             if library:
-                return bad_request()
+                return not_found()
             else:
-                _repository.create(path)
-                return created()
+                id = _repository.create(path)
+                return created(id)
         else:
             return bad_request()
 

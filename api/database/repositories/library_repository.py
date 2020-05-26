@@ -18,6 +18,7 @@ class LibraryRepository():
         library = Library(path = path)
         db.session.add(library)
         db.session.commit()
+        return library.id
 
 
     def delete(self, id:int):
