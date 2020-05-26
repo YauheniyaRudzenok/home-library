@@ -9,6 +9,10 @@ class LibraryRepository():
     def get_by_path(self, path: str):
         return Library.query.filter_by(path=path).first()
 
+
+    def get_by_id(self, id: int):
+        return Library.query.filter_by(id=id).first()
+
     
     def create(self, path: str):
         library = Library(path = path)

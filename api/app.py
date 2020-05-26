@@ -1,18 +1,13 @@
 from flask import jsonify
 
 from init import create_app
-from services.indexer import Indexer
 
 import time
 import threading
 import requests
 
-app = create_app()
 
-@app.route('/index')
-def index():
-    Indexer().start()
-    return jsonify(True), 200
+app = create_app()
 
 
 def start_indexer():
