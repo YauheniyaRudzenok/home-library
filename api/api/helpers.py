@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, make_response
 
 
 def created(message=None):
@@ -6,7 +6,7 @@ def created(message=None):
 
 
 def deleted(message=None):
-    return _get_message(message), 204
+    return make_response(_get_message(message), 204)
 
 
 def bad_request(message=None):

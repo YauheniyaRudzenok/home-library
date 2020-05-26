@@ -10,4 +10,8 @@ export class LibraryService {
     public getLibraries(): Observable<ILibrary[]> {
         return this.http.get<ILibrary[]>('/libraries');
     }
+
+    public delete(id: number): Observable<Object> {
+        return this.http.delete(`/libraries/${id}`);
+    }
 }

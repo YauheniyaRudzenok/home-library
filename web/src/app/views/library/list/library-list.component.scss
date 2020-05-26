@@ -1,5 +1,23 @@
+@import "../../../../styles/mixins.scss";
+
 :host{
     ::ng-deep .ui-listbox {
         width: 100%;
+    }
+    .ui-helper-clearfix span {
+        vertical-align: -webkit-baseline-middle;
+    }
+}
+
+.page-header-action {
+    @include clearfix;
+    h1 {
+        float: left;
+    }
+    button {
+        float: right; 
+        position: relative; 
+        top: 20px; 
+        right: 15px;
     }
 }

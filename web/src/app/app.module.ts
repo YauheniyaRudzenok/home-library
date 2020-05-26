@@ -4,7 +4,9 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 import {ButtonModule} from 'primeng/button';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ListboxModule} from 'primeng/listbox';
+import {ToastModule} from 'primeng/toast';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,7 +34,9 @@ import {
     HttpClientModule,
     BrowserAnimationsModule,
     ButtonModule,
-    ListboxModule
+    ConfirmDialogModule,
+    ListboxModule,
+    ToastModule
   ],
   providers: [
     FileManagerService,

@@ -13,6 +13,10 @@ export class HttpService {
         return this.http.get<T>(this.getUrl(url))
     }
 
+    public delete(url: string): Observable<Object> {
+        return this.http.delete(this.getUrl(url));
+    }
+
     private getUrl(url: string): string {
         return environment.api + url;
     }
