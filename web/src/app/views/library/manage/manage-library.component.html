@@ -1,1 +1,21 @@
-<h4>Manage Library</h4>
+<h1>Add Library Folder</h1>
+
+<div class="row-100">
+    <input type="text" pInputText [(ngModel)]="CurrentPath"/>
+    <button pButton (click)="back()" type="button" icon="pi pi-angle-double-up" iconPos="left" class="back"></button>
+</div>
+
+<div class="row-100">
+    <p-listbox [options]="Folders">
+        <ng-template let-folder let-i="index" pTemplate="item">
+            <div class="ui-helper-clearfix">
+                <span>{{folder}}</span>
+                <button pButton (click)="openFolder(folder)" type="button" icon="pi pi-angle-double-right" iconPos="left" style="float:right;"></button>
+            </div>
+        </ng-template>
+    </p-listbox>
+</div>
+<div class="row-100">
+    <button pButton (click)="save()" type="button" label="Save"></button>
+</div>
+<p-toast></p-toast>

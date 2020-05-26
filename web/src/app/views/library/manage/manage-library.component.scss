@@ -1,0 +1,14 @@
+:host{
+    ::ng-deep .ui-listbox {
+        width: 100%;
+    }
+    .ui-helper-clearfix span {
+        vertical-align: -webkit-baseline-middle;
+    }
+    .ui-inputtext {
+        width:95%;
+    }
+    .back {
+        margin-left: 14px;
+    }
+}

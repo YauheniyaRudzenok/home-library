@@ -17,6 +17,10 @@ export class HttpService {
         return this.http.delete(this.getUrl(url));
     }
 
+    public post<T>(url: string, body: any): Observable<T> {
+        return this.http.post<T>(this.getUrl(url), body);
+    }
+
     private getUrl(url: string): string {
         return environment.api + url;
     }

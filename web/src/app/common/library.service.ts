@@ -14,4 +14,9 @@ export class LibraryService {
     public delete(id: number): Observable<Object> {
         return this.http.delete(`/libraries/${id}`);
     }
+
+    public create(path: string): Observable<number> {
+        let body: ILibrary = { path: path, id: 0 };
+        return this.http.post<number>('/libraries/', body);
+    }
 }

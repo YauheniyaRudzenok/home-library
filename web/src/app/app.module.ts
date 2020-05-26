@@ -2,11 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import {ButtonModule} from 'primeng/button';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ListboxModule} from 'primeng/listbox';
 import {ToastModule} from 'primeng/toast';
+import {InputTextModule} from 'primeng/inputtext';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,7 +16,8 @@ import { AppComponent } from './app.component';
 import {
   FileManagerService,
   LibraryService,
-  HttpService
+  HttpService,
+  IndexService
 } from './common';
 import {
   LibraryList,
@@ -29,6 +32,7 @@ import {
     ManageLibrary
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -36,12 +40,14 @@ import {
     ButtonModule,
     ConfirmDialogModule,
     ListboxModule,
-    ToastModule
+    ToastModule,
+    InputTextModule
   ],
   providers: [
     FileManagerService,
     LibraryService,
-    HttpService
+    HttpService,
+    IndexService
   ],
   bootstrap: [AppComponent]
 })
