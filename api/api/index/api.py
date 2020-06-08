@@ -12,7 +12,7 @@ api_ns = Namespace('index')
 class Index(Resource):
     @api_ns.response(200, "Index finished.")
     def get(self):
-        Indexer().start()
+        Indexer().start_all()
         return ok(True)
 
 

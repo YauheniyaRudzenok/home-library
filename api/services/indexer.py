@@ -16,11 +16,11 @@ class Indexer():
         self._book_service = BookService()
 
 
-    def start(self):
+    def start_all(self):
         libraries = self._library_repository.get_all()
         if(libraries is None):
             raise Exception('The libraries do not exists')
-        self._index(libraries)
+        self._index_all(libraries)
         self._watch(libraries)
 
 
@@ -32,7 +32,7 @@ class Indexer():
         self._watch([library])
 
 
-    def _index(self, libraries):
+    def _index_all(self, libraries):
         if self._config.get_indexed(): return
         for library in libraries:
             self._index(library)
