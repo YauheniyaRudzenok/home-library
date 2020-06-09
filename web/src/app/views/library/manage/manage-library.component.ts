@@ -30,10 +30,8 @@ export class ManageLibrary implements OnInit {
         this.libraryService.create(this.CurrentPath).subscribe(
             x => this.indexService.indexLibrary(x).subscribe(),
             error => this.messageService.add({severity:'error', summary:'Library folder was not added'}),
-            () => {
-                this.messageService.add({severity:'success', summary:'Library folder was added'});
-                this.router.navigateByUrl('/libraries');
-            });
+            () => this.router.navigateByUrl('/libraries')
+        )
     }
 
     openFolder(path: string): void {
