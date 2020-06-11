@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpService } from './http.service';
-import { ILibrary } from '../models';
+import { HttpService } from '../../../common/http.service';
+import { ILibrary } from '../models/library.model';
 
 @Injectable()
 export class LibraryService {

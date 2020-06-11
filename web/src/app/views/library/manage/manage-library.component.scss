@@ -1,3 +1,5 @@
+@import '../../../../styles/styles.scss';
+
 :host{
     ::ng-deep .ui-listbox {
         width: 100%;
@@ -5,7 +7,7 @@
     .ui-helper-clearfix span {
         vertical-align: -webkit-baseline-middle;
     }
-    .ui-inputtext {
+    input {
         width:95%;
     }
     .back {

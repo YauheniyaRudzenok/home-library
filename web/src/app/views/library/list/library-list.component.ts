@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import {ConfirmationService, MessageService} from 'primeng/api';
 
-import { ILibrary } from '../../../models';
-import { LibraryService } from '../../../common';
+import { ILibrary } from '../models/library.model';
+import { LibraryService } from '../services/library.service';
 
 
 @Component({

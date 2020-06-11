@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 
 import { Observable } from 'rxjs';
 
-import { HttpService } from '../http.service';
-import { LibraryService } from '../library.service';
-import { ILibrary } from '../../models';
+import { HttpService } from '../../../common/http.service';
+import { ILibrary } from '../models/library.model';
+import { LibraryService } from './library.service';
 
 
 describe('LibraryService', () => {

@@ -10,8 +10,8 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 
 import { Observable } from 'rxjs';
 
-import { LibraryService } from '../../../common';
-import { ILibrary } from '../../../models';
+import { LibraryService } from '../services/library.service';
+import { ILibrary } from '../models/library.model';
 import { LibraryList } from './library-list.component';
 
 describe('LibraryList', () => {

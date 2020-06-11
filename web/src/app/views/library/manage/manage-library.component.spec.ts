@@ -11,9 +11,10 @@ import { MessageService} from 'primeng/api';
 
 import { Observable } from 'rxjs';
 
-import { LibraryService, FileManagerService, IndexService } from '../../../common';
+import { FileManagerService, IndexService } from '../../../common';
 import { IPath } from '../../../models';
 import { ManageLibrary } from './manage-library.component';
+import { LibraryService } from '../services/library.service';
 
 describe('ManageLibrary', () => {
     const testPath: IPath = { path: '\\', folders: ['a', 'b']};

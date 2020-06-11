@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 
-import { FileManagerService, IndexService, LibraryService } from '../../../common';
+import { FileManagerService, IndexService } from '../../../common';
+import { LibraryService } from '../services/library.service';
 import { IPath } from 'src/app/models';
 
 @Component({

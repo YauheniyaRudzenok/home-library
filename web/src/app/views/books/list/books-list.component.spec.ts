@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { BooksList } from "./books-list.component"
-import { LibraryService } from '../../common';
-import { ILibrary } from '../../models';
+import { LibraryService } from '../../library';
+import { ILibrary } from '../../library';
 
 describe('BooksList', () => {
     let component: BooksList;

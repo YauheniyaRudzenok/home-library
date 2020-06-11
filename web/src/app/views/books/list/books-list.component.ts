@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LibraryService } from '../../common';
-import { ILibrary } from '../../models';
+import { LibraryService } from '../../library';
+import { ILibrary } from '../../library';
 
 @Component({
     templateUrl:'./books-list.component.html',
