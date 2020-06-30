@@ -18,13 +18,10 @@ class BookService:
             self._logger.info("Add book {path}".format(path=path))
             dir, file_name, title, ext = self._split_path(path)
             gr_book = self._search_book(title)
-            goodreads_id = None
             image_name = None
             if gr_book:
                 image_name = self._download_image(gr_book.image_url(), dir, title)
-                title = gr_book.title()
-                goodreads_id = gr_book.identifier()
-            params = self._create_book_params(file_name, path, dir, library_id, title, goodreads_id, image_name)
+            params = self._create_book_params(file_name, path, dir, library_id, title, image_name, gr_book)
             self._book_repository.create(**params)
         except Exception as ex:
             self._logger.exception(ex)
@@ -53,11 +50,9 @@ class BookService:
                 gr_book = self._search_book(title)
                 if gr_book:
                     image_name = self._download_image(gr_book.image_url(), dir, title)
-                    title = gr_book.title()
-                    goodreads_id = gr_book.identifier()
             else:
                 title = None
-            params = self._create_book_params(file_name, to_path, dir, book.file.library_id, title, goodreads_id, image_name)
+            params = self._create_book_params(file_name, to_path, dir, book.file.library_id, title, image_name, gr_book)
             self._book_repository.update(book.id, **params)
         except Exception as ex:
             self._logger.exception(ex)
@@ -75,7 +70,17 @@ class BookService:
 
 
     def _create_book_params(self, file_name: str, path: str, dir: str, library_id: int, 
-                            title: str, goodreads_id: int, image_name:str):
+                            title: str, image_name:str, gr_book):
+        goodreads_id = None
+        description = None
+        authors = None
+
+        if (gr_book):
+            title = gr_book.title()
+            goodreads_id = gr_book.id
+            description = gr_book.description()
+            authors = ', '.join(map(lambda x: x.name(), gr_book.authors()))
+
         return {
             "file_name": file_name,
             "full_path": path,
@@ -83,7 +88,9 @@ class BookService:
             "library_id": library_id,
             "title": title,
             "goodreads_id": goodreads_id,
-            "image_name": image_name
+            "image_name": image_name,
+            "description": description,
+            "authors" : authors
         }
 
 

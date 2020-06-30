@@ -14,7 +14,7 @@ class GoodreadsRequest:
     Represents a single request to Goodreads.
     '''
 
-    def __init__(self, endpoint, special_endpoint=False):
+    def __init__(self, endpoint, special_endpoint=False, parameters=None):
         global key
         if endpoint is None:
             AssertionError("Unfortunately, there is no endpoint for looking up this data.")
@@ -22,7 +22,14 @@ class GoodreadsRequest:
         if special_endpoint:
             url = endpoint
         else:
-            url = "https://www.goodreads.com/{endpoint}?key={key}".format(endpoint=endpoint, key=key)
+            url = "https://www.goodreads.com/{endpoint}".format(endpoint=endpoint)
+
+        if "key=" not in url: 
+            url = url + "?key={key}".format(key=key)
+
+        if parameters is not None:
+            for param in parameters:
+                url = url + "&{param}={value}".format(param=param, value=parameters[param])
 
         resp = requests.get(url)
         self.response = ElementTree.fromstring(resp.content)
@@ -40,9 +47,10 @@ class GoodreadsData:
         '''
         incomplete_tree is an Element Tree containing partial information about the data. Some parents have a partial tree containing some information. This can be cached to save a request.
         '''
-        self.request = None #When a request is made, it is stored in memory. This assumes that a piece of data will never update within the lifetime of the program.
+        self.response = None #When a request is made, it is stored in memory. This assumes that a piece of data will never update within the lifetime of the program.
         self.cache = {}
         self.special_endpoint = False #When an endpoint requires more sturcture than what is currently present
+        self.parameters = {}
 
         # Handle Cacheing
         if incomplete_tree is not None:
@@ -61,8 +69,8 @@ class GoodreadsData:
         if lookup_value in self.cache: #First we check if the data is in the incomplete tree cache.
             result = self.cache[lookup_value]
         else: #If not, we look at an actual request
-            self._make_request()
-            result = self.request.find(lookup_value)
+            self.make_request()
+            result = self.response.find(lookup_value)
 
         if returnText:
             return result.text
@@ -70,9 +78,9 @@ class GoodreadsData:
             return result
 
 
-    def _make_request(self):
-        if self.request is None: #We check if there is a request already present before making a request
-            self.request = GoodreadsRequest(self.endpoint, special_endpoint=self.special_endpoint).response
+    def make_request(self):
+        if self.response is None: #We check if there is a request already present before making a request
+            self.response = GoodreadsRequest(self.endpoint, special_endpoint=self.special_endpoint, parameters=self.parameters).response
 
 
     def parseDataList(self, tree, the_class, search_pattern: str="id"):
@@ -95,46 +103,42 @@ class Author(GoodreadsData):
     def name(self):
         return self._request("name")
 
-    def fans(self):
-        return self._request("fans_count")
+    # def fans(self):
+    #     return self._request("fans_count")
 
-    def about(self):
-        return self._request("about")
+    # def about(self):
+    #     return self._request("about")
     
-    def influences(self):
-        return self._request("influences")
+    # def influences(self):
+    #     return self._request("influences")
     
-    def works_count(self):
-        return self._request("works_count")
+    # def works_count(self):
+    #     return self._request("works_count")
     
-    def gender(self):
-        return self._request("gender")
+    # def gender(self):
+    #     return self._request("gender")
     
-    def hometown(self):
-        return self._request("hometown")
+    # def hometown(self):
+    #     return self._request("hometown")
     
-    def born(self):
-        return self._request("born_at")
+    # def born(self):
+    #     return self._request("born_at")
     
-    def died(self):
-        return self._request("died_at")
+    # def died(self):
+    #     return self._request("died_at")
     
-    def books(self):
-        all_books = self._request("books", returnText=False)
-        return self.parseDataList(all_books, Book)
+    # def books(self):
+    #     all_books = self._request("books", returnText=False)
+    #     return self.parseDataList(all_books, Book)
 
 class Book(GoodreadsData):
     def __init__(self, id, incomplete_tree=None):
         GoodreadsData.__init__(self, incomplete_tree=incomplete_tree)
-        self.id = id
-        self._identifier = id.text
+        self.id = id if type(id) is int else id.text
         self.endpoint = "book/show/{id}".format(id=self.id)  
 
     def __repr__(self):
         return self.title()
-
-    def identifier(self):
-        return self._identifier
 
     def title(self):
         return self._request("title")
@@ -160,8 +164,8 @@ class Book(GoodreadsData):
     # def language(self):
     #     return self._request("language_code")
     
-    # def description(self):
-    #     return self._request("description")
+    def description(self):
+        return self._request("description")
     
     # def average_rating(self):
     #     return self._request("average_rating")
@@ -187,9 +191,9 @@ class Book(GoodreadsData):
     def image_url(self):
         return self._request("image_url")
     
-    # def authors(self):
-    #     authors = self._request("authors", returnText=False)
-    #     return self.parseDataList(authors, Author)
+    def authors(self):
+        authors = self._request("authors", returnText=False)
+        return self.parseDataList(authors, Author)
     
     # def popular_shelves(self):
     #     shelves = self._request("popular_shelves", returnText=False)
@@ -275,10 +279,11 @@ class User(GoodreadsData):
 class SearchBooks(GoodreadsData):
     def __init__(self, query: str, incomplete_tree=None):
         GoodreadsData.__init__(self, incomplete_tree=incomplete_tree)
-        self.endpoint = "https://www.goodreads.com/search/index.xml?key={key}&q={query}".format(key=key, query=query)
-        self.special_endpoint = True
+        self.endpoint = "search/index.xml"
+        self.special_endpoint = False
+        self.parameters['q'] = query
 
 
     def books(self):
-        self._make_request()
-        return self.parseDataList(self.request.findall("./results/work/best_book"), Book)
+        self.make_request()
+        return self.parseDataList(self.response.findall("./results/work/best_book"), Book)

@@ -34,4 +34,6 @@ class Book(db.Model):
     id = Column(Integer, primary_key=True)
     title = Column(String)
     goodreads_id = Column(Integer)
+    description = Column(String)
+    authors = Column(String)
     file = relationship("File", uselist=False)

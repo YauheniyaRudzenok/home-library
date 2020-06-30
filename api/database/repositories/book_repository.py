@@ -45,6 +45,8 @@ class BookRepository:
         if book_data.title is not None:
             book.title = book_data.title
         book.goodreads_id = book_data.goodreads_id
+        book.description = book_data.description
+        book.authors = book_data.authors
         book.file.file_name = file_data.file_name
         book.file.path = file_data.path
         book.file.full_path = file_data.full_path
@@ -68,5 +70,7 @@ class BookRepository:
                     image_name = params["image_name"])
         book = Book(title = params["title"],
                     goodreads_id = goodreads_id,
+                    description = params["description"],
+                    authors = params["authors"],
                     file = file)
         return file, book
