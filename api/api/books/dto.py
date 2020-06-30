@@ -14,6 +14,8 @@ class BookDto:
         'id': fields.Integer(),
         'title': fields.String(),
         'goodreads_id': fields.Integer(),
+        'description': fields.String(),
+        'authors': fields.String(),
         'file': fields.Nested(file)
     })
     page = api.model('page', {
