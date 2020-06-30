@@ -17,7 +17,7 @@ class File(db.Model):
     file_name = Column(String)
     path = Column(String)
     full_path = Column(String)
-    image_name = Column(String)
+    image = Column(String)
     library_id = Column(Integer, ForeignKey("libraries.id"))
     book_id = Column(Integer, ForeignKey('books.id'))
     book = relationship("Book", single_parent=True, cascade="delete")

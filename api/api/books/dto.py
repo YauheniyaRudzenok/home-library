@@ -1,4 +1,6 @@
 from flask_restx import Namespace, fields
+from ..fields import Base64String;
+
 
 class BookDto:
     api = Namespace('books')
@@ -7,7 +9,7 @@ class BookDto:
         'file_name': fields.String(),
         'path': fields.String(),
         'full_path': fields.String(),
-        'image_name': fields.String,
+        'image': Base64String(),
         'library_id': fields.Integer
     })
     book = api.model('book', {

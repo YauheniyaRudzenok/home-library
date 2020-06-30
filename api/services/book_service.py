@@ -1,6 +1,7 @@
 import os
 import logging
 import requests
+import base64
 from urllib.parse import urlparse
 
 from .goodreads import SearchBooks
@@ -18,10 +19,10 @@ class BookService:
             self._logger.info("Add book {path}".format(path=path))
             dir, file_name, title, ext = self._split_path(path)
             gr_book = self._search_book(title)
-            image_name = None
+            image = None
             if gr_book:
-                image_name = self._download_image(gr_book.image_url(), dir, title)
-            params = self._create_book_params(file_name, path, dir, library_id, title, image_name, gr_book)
+                image = self._download_image(gr_book.image_url())
+            params = self._create_book_params(file_name, path, dir, library_id, title, image, gr_book)
             self._book_repository.create(**params)
         except Exception as ex:
             self._logger.exception(ex)
@@ -30,11 +31,7 @@ class BookService:
     def delete(self, path: str):
         try:
             self._logger.info("Delete book {path}".format(path=path))
-            book = self._book_repository.get_by_path(path)
-            image_name = book.file.image_name
-            image_path = book.file.path
             self._book_repository.delete(path)
-            self._delete_image(image_path, image_name)
         except Exception as ex:
             self._logger.exception(ex)
 
@@ -45,14 +42,14 @@ class BookService:
             dir, file_name, title, ext = self._split_path(to_path)
             book = self._book_repository.get_by_path(from_path)
             goodreads_id = book.goodreads_id
-            image_name = book.file.image_name
+            image = book.file.image
             if goodreads_id is None:
                 gr_book = self._search_book(title)
                 if gr_book:
-                    image_name = self._download_image(gr_book.image_url(), dir, title)
+                    image = self._download_image(gr_book.image_url())
             else:
                 title = None
-            params = self._create_book_params(file_name, to_path, dir, book.file.library_id, title, image_name, gr_book)
+            params = self._create_book_params(file_name, to_path, dir, book.file.library_id, title, image, gr_book)
             self._book_repository.update(book.id, **params)
         except Exception as ex:
             self._logger.exception(ex)
@@ -70,7 +67,7 @@ class BookService:
 
 
     def _create_book_params(self, file_name: str, path: str, dir: str, library_id: int, 
-                            title: str, image_name:str, gr_book):
+                            title: str, image:str, gr_book):
         goodreads_id = None
         description = None
         authors = None
@@ -88,26 +85,12 @@ class BookService:
             "library_id": library_id,
             "title": title,
             "goodreads_id": goodreads_id,
-            "image_name": image_name,
+            "image": image,
             "description": description,
             "authors" : authors
         }
 
 
-    def _download_image(self, url: str, path: str, name: str):
-        url_path = urlparse(url).path
-        ext = os.path.splitext(url_path)[1]
-        image_name = "{name}{ext}".format(name=name, ext=ext)
-
+    def _download_image(self, url: str):
         img_data = requests.get(url).content
-        with open(os.path.join(path, image_name), 'wb') as handler:
-            handler.write(img_data)
-
-        return image_name
-
-
-    def _delete_image(self, path:str, image_name:str):
-        if image_name is None: return
-        full_path = os.path.join(path, image_name)
-        if os.path.exists(full_path):
-            os.remove(full_path)
+        return base64.b64encode(img_data)

@@ -50,7 +50,7 @@ class BookRepository:
         book.file.file_name = file_data.file_name
         book.file.path = file_data.path
         book.file.full_path = file_data.full_path
-        book.file.image_name = file_data.image_name
+        book.file.image = file_data.image
         self._db.session.commit()
 
 
@@ -67,7 +67,7 @@ class BookRepository:
                     full_path = params["full_path"],
                     path = params["path"],
                     library_id = params["library_id"],
-                    image_name = params["image_name"])
+                    image = params["image"])
         book = Book(title = params["title"],
                     goodreads_id = goodreads_id,
                     description = params["description"],
