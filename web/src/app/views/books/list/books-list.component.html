@@ -1,4 +1,24 @@
-<h1>Book List</h1>
-<a routerLink="['/']" class="nav-link">
-    <span class="title">Home Library</span>
-</a>
+<div class="row-100">
+    <p-dataView [value]="Page?.data" layout="grid" [paginator]="true" [rows]="18" 
+        [totalRecords]="Page?.count" [lazy]="true" (onLazyLoad)="loadBooks($event)">
+        <ng-template let-book pTemplate="gridItem">
+            <div class="p-lg-4 p-sm-6">
+                <div class="book">
+                    <div class="book-content">
+                        <div class="book-header">
+                            <span class="author">{{book.authors}}</span>
+                            <h3>
+                                <a>{{book.title}}</a>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="book-body">
+                        <div class="book-image">
+                            <img [src]="imageService.prepareBase64Image(book.file.image)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-dataView>
+</div>

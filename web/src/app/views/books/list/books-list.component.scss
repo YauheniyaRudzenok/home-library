@@ -1,0 +1,41 @@
+.book {
+    margin-bottom: 30px;
+    text-align: center;
+    .book-header {
+        padding: 0 15px;
+        .author {
+            font-size: 14px;
+            font-weight: 400;
+            padding: 0;
+            color: #333;
+            text-transform: capitalize;
+            display: block;
+            margin-bottom: 5px;
+        }
+        h3 {
+            margin: 0;
+            a {
+                padding: 0;
+                display: block;
+                text-transform: capitalize;
+                overflow: hidden;
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 18px;
+            }
+        }
+    }
+
+    .book-body {
+        position: relative;
+        .book-image {
+            position: relative;
+        }
+    }
+}
+
+:host{
+    ::ng-deep .ui-dataview-header {
+        display: none;
+    }
+}

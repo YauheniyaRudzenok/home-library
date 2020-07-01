@@ -28,7 +28,8 @@ describe('LibraryList', () => {
                 ListboxModule, 
                 ConfirmDialogModule, 
                 ToastModule,
-                BrowserAnimationsModule],
+                BrowserAnimationsModule
+            ],
             providers: [
                 ConfirmationService,
                 MessageService,
