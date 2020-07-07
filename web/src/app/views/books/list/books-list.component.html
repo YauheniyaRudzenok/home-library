@@ -8,7 +8,7 @@
                         <div class="book-header">
                             <span class="author">{{book.authors}}</span>
                             <h3>
-                                <a>{{book.title}}</a>
+                                <a [routerLink]="['/books/', book.id]">{{book.title}}</a>
                             </h3>
                         </div>
                     </div>

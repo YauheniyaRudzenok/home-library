@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { HttpService } from '../../../common';
 
-import { IPage } from '../models/book.model';
+import { IPage, IBook } from '../models/book.model';
 
 @Injectable()
 export class BookService {
@@ -12,5 +12,9 @@ export class BookService {
 
     public getBooks(offset: number, count: number): Observable<IPage> {
         return this.http.get<IPage>(`/books/${offset}/${count}`);
+    }
+
+    public getBook(id: number): Observable<IBook> {
+        return this.http.get<IBook>(`/books/${id}`);
     }
 }
