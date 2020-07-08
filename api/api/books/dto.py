@@ -1,5 +1,5 @@
 from flask_restx import Namespace, fields
-from ..fields import Base64String;
+from ..fields import Base64String
 
 
 class BookDto:
@@ -15,7 +15,7 @@ class BookDto:
     book = api.model('book', {
         'id': fields.Integer(),
         'title': fields.String(),
-        'goodreads_id': fields.Integer(),
+        'goodreads_id': fields.Integer,
         'description': fields.String(),
         'authors': fields.String(),
         'file': fields.Nested(file)

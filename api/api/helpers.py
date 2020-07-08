@@ -9,8 +9,8 @@ def created(message=None):
     return make_response(_get_message(message), 201)
 
 
-def deleted(message=None):
-    return make_response(_get_message(message), 204)
+def no_content():
+    return make_response(_get_message(''), 204)
 
 
 def bad_request(message=None):

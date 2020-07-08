@@ -1,12 +1,17 @@
 from flask_restx import Resource
+from flask import request
+
+from munch import Munch
 
 from .dto import BookDto
-from ..helpers import not_found
+from api.helpers import not_found, no_content, bad_request
 from database.repositories import BookRepository
+from services.book_service import BookService
 
 
 api_ns = BookDto.api
 _repository = BookRepository()
+_service = BookService()
 
 
 @api_ns.route("/<int:offset>/<int:count>")
@@ -28,3 +33,16 @@ class BookItem(Resource):
     def get(self, id):
         book = _repository.get_by_id(id)
         return book if book else not_found()
+        
+    
+    @api_ns.doc("Book")
+    @api_ns.response(204, "Book updated")
+    @api_ns.expect(BookDto.book)
+    def put(self, id):
+        if request.json:
+            book = Munch(request.json)
+            book.file = Munch(book.file)
+            _service.update(id, book)
+            return no_content()
+        else:
+            return bad_request()

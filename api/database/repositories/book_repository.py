@@ -62,14 +62,13 @@ class BookRepository:
 
 
     def _parse_params(self, **params):
-        goodreads_id = params["goodreads_id"] if "goodreads_id" in params else None
         file = File(file_name = params["file_name"],
                     full_path = params["full_path"],
                     path = params["path"],
                     library_id = params["library_id"],
-                    image = params["image"])
+                    image = params.get("image", None))
         book = Book(title = params["title"],
-                    goodreads_id = goodreads_id,
+                    goodreads_id = params.get("goodreads_id", None),
                     description = params["description"],
                     authors = params["authors"],
                     file = file)

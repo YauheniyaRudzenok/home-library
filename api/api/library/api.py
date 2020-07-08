@@ -4,7 +4,7 @@ from flask_restx import Resource
 import os
 
 from .dto import LibraryDto
-from ..helpers import bad_request, created, deleted, not_found
+from ..helpers import bad_request, created, ok, not_found
 from database.repositories.library_repository import LibraryRepository
 
 
@@ -49,4 +49,4 @@ class LibraryItem(Resource):
     @api_ns.response(204, "Library deleted")
     def delete(self, id):
         result = _repository.delete(id)
-        return deleted(id) if result else not_found()
+        return ok(id) if result else not_found()
