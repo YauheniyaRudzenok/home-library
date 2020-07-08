@@ -73,6 +73,16 @@ class BookService:
         self._book_repository.update(book.id, **params)
 
 
+    def index(self, id: int):
+        self._logger.info("Index book {id}".format(id=id))
+        book = self._book_repository.get_by_id(id)
+
+        if book.goodreads_id is not None:
+            gr_book = Book(book.goodreads_id)
+            params = self._create_book_params(gr_book)
+            self._book_repository.update(book.id, **params)
+
+
     def _split_path(self, path:str):
         dir, file_name = os.path.split(path)
         title, ext = os.path.splitext(file_name)

@@ -27,4 +27,18 @@ class IndexLibrary(Resource):
             Indexer().start(id)
             return ok()
         except:
+            return not_found()
+
+
+@api_ns.route("/book/<int:id>")
+@api_ns.response(404, "Book not found")
+@api_ns.param("id", "The book id")
+class IndexBook(Resource):
+    @api_ns.doc("Index book")
+    @api_ns.response(200, "Book was indexed")
+    def get(self, id):
+        try:
+            Indexer().index_book(id)
+            return ok()
+        except:
             return not_found() 

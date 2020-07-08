@@ -32,6 +32,10 @@ class Indexer():
         self._watch([library])
 
 
+    def index_book(self, id: int):
+        self._book_service.index(id)
+
+
     def _index_all(self, libraries):
         if self._config.get_indexed(): return
         for library in libraries:

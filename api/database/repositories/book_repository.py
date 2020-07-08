@@ -47,10 +47,15 @@ class BookRepository:
         book.goodreads_id = book_data.goodreads_id
         book.description = book_data.description
         book.authors = book_data.authors
-        book.file.file_name = file_data.file_name
-        book.file.path = file_data.path
-        book.file.full_path = file_data.full_path
-        book.file.image = file_data.image
+
+        if file_data.file_name is not None:
+            book.file.file_name = file_data.file_name
+            book.file.path = file_data.path
+            book.file.full_path = file_data.full_path
+
+        if file_data.image is not None:
+            book.file.image = file_data.image
+
         self._db.session.commit()
 
 
@@ -62,10 +67,10 @@ class BookRepository:
 
 
     def _parse_params(self, **params):
-        file = File(file_name = params["file_name"],
-                    full_path = params["full_path"],
-                    path = params["path"],
-                    library_id = params["library_id"],
+        file = File(file_name = params.get("file_name", None),
+                    full_path = params.get("full_path", None),
+                    path = params.get("path", None),
+                    library_id = params.get("library_id", None),
                     image = params.get("image", None))
         book = Book(title = params["title"],
                     goodreads_id = params.get("goodreads_id", None),
