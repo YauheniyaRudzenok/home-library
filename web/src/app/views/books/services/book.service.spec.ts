@@ -19,7 +19,7 @@ describe('BookService', () => {
     let httpService: jasmine.SpyObj<HttpService>;
 
     beforeEach(() => {
-        var spy = jasmine.createSpyObj('HttpService', ['get']);
+        var spy = jasmine.createSpyObj('HttpService', ['get', 'put']);
 
         TestBed.configureTestingModule({
             providers: [
@@ -59,6 +59,16 @@ describe('BookService', () => {
             expect(result).toEqual(book);
 
             expect(httpService.get).toHaveBeenCalledWith(`/books/${id}`);
+        });
+    });
+
+    it('should update book', () => {
+        httpService.put.and.returnValue(Observable.create(observer => {
+            observer.next();
+        }));
+
+        service.update(book).subscribe(() => {
+            expect(httpService.put).toHaveBeenCalledWith(`/books/${book.id}`, book);
         });
     });
 });

@@ -1,0 +1,29 @@
+<div *ngIf="book">
+    <div class="p-grid">
+        <div class="p-col-2 book-image">
+            <img [src]="imageService.prepareBase64Image(book.file.image)">
+        </div>
+        <div class="p-col-10">
+            <h3>Title</h3>
+            <input type="text" pInputText [(ngModel)]="book.title">
+            <h3>Authors</h3>
+            <input type="text" pInputText [(ngModel)]="book.authors">
+            <h3>Goodreads ID</h3>
+            <input type="text" pInputText [(ngModel)]="book.goodreads_id">
+            <h3>Description</h3>
+            <p-editor [(ngModel)]="book.description">
+                <p-header>
+                    <span class="ql-formats">
+                        <button class="ql-bold" aria-label="Bold"></button>
+                        <button class="ql-italic" aria-label="Italic"></button>
+                        <button class="ql-underline" aria-label="Underline"></button>
+                    </span>
+                </p-header>
+            </p-editor>
+            <div class="actions">
+                <button pButton label="Save" (click)="save()" type="button"></button>
+                <button pButton label="Cancel" [routerLink]="['/books', book.id]" type="button" class="ui-button-secondary"></button>
+            </div>
+        </div>
+    </div>
+</div>

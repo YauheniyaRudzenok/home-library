@@ -16,7 +16,7 @@ describe('HttpService', () => {
     let httpClient: jasmine.SpyObj<HttpClient>;
 
     beforeEach(() => {
-        var spy = jasmine.createSpyObj('HttpClient', ['get', 'delete', 'post']);
+        var spy = jasmine.createSpyObj('HttpClient', ['get', 'delete', 'post', 'put']);
 
         TestBed.configureTestingModule({
             providers: [
@@ -62,6 +62,18 @@ describe('HttpService', () => {
             expect(result).toBeTruthy();
 
             expect(httpClient.delete).toHaveBeenCalledWith(environment.api + testUrl);
+        });
+    });
+
+    it('should put', () => {
+        httpClient.put.and.returnValue(Observable.create(observer => {
+            observer.next(expectedPath);
+        }));
+
+        service.put(testUrl, expectedPath).subscribe((result: IPath) => {
+            expect(result).toBeTruthy();
+
+            expect(httpClient.put).toHaveBeenCalledWith(environment.api + testUrl, expectedPath);
         });
     });
 })

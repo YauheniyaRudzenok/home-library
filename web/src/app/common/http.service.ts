@@ -21,6 +21,10 @@ export class HttpService {
         return this.http.post<T>(this.getUrl(url), body);
     }
 
+    public put<T>(url: string, body: any): Observable<T> {
+        return this.http.put<T>(this.getUrl(url), body);
+    }
+
     private getUrl(url: string): string {
         return environment.api + url;
     }

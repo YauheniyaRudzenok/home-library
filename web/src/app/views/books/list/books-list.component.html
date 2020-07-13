@@ -14,7 +14,9 @@
                     </div>
                     <div class="book-body">
                         <div class="book-image">
-                            <img [src]="imageService.prepareBase64Image(book.file.image)">
+                            <a [routerLink]="['/books/', book.id]">
+                                <img [src]="imageService.prepareBase64Image(book.file.image)">
+                            </a>
                         </div>
                     </div>
                 </div>

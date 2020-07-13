@@ -17,4 +17,8 @@ export class BookService {
     public getBook(id: number): Observable<IBook> {
         return this.http.get<IBook>(`/books/${id}`);
     }
+
+    public update(book: IBook): Observable<Object> {
+        return this.http.put<IBook>(`/books/${book.id}`, book);
+    }
 }

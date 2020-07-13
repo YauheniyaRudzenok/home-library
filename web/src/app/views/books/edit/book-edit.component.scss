@@ -1,11 +1,21 @@
 .book-image {
     padding-top: 20px; 
-    img, button {
+    img {
         display: block;
         margin-left: auto;
         margin-right: auto 
     }
+}
+
+:host{
+    ::ng-deep .ui-inputtext {
+        width: 100%;
+    }
+}
+
+.actions {
+    margin-top: 10px;
     button {
-        margin-top: 5px;
+        margin-right: 10px;
     }
 }
