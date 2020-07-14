@@ -7,6 +7,10 @@ import { DataViewModule } from 'primeng/dataview';
 import { InputTextModule } from 'primeng/inputtext';
 import { EditorModule } from 'primeng/editor';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 import { BooksRoutingModule } from './books-routing.module';
 
@@ -25,7 +29,9 @@ import { ImageService } from '../../common';
         DataViewModule,
         InputTextModule,
         EditorModule,
-        SplitButtonModule
+        SplitButtonModule,
+        ConfirmDialogModule,
+        ToastModule
     ],
     declarations: [
         BookDetails,
@@ -34,7 +40,9 @@ import { ImageService } from '../../common';
     ],
     providers:[
         BookService,
-        ImageService
+        ImageService,
+        ConfirmationService,
+        MessageService
     ]
 })
 export class BooksModule { }

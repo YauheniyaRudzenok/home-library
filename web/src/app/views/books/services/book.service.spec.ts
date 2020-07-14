@@ -6,6 +6,7 @@ import { IBook, IPage } from '../models/book.model';
 import { Observable } from 'rxjs';
 
 describe('BookService', () => {
+    const id: number = 12;
     const book: IBook = { 
         authors:'',
         description:'',
@@ -19,7 +20,7 @@ describe('BookService', () => {
     let httpService: jasmine.SpyObj<HttpService>;
 
     beforeEach(() => {
-        var spy = jasmine.createSpyObj('HttpService', ['get', 'put']);
+        var spy = jasmine.createSpyObj('HttpService', ['get', 'put', 'delete']);
 
         TestBed.configureTestingModule({
             providers: [
@@ -49,8 +50,6 @@ describe('BookService', () => {
     });
 
     it('should get book', () => {
-        const id: number = 12;
-
         httpService.get.and.returnValue(Observable.create(observer => {
             observer.next(book);
         }));
@@ -69,6 +68,16 @@ describe('BookService', () => {
 
         service.update(book).subscribe(() => {
             expect(httpService.put).toHaveBeenCalledWith(`/books/${book.id}`, book);
+        });
+    });
+
+    it('should delete book', () => {
+        httpService.delete.and.returnValue(Observable.create(observer => {
+            observer.next();
+        }));
+
+        service.delete(id).subscribe(result => {
+            expect(httpService.delete).toHaveBeenCalledWith(`/books/${id}`);
         });
     });
 });
