@@ -38,6 +38,19 @@ class BookService:
             self._logger.exception(ex)
 
 
+    def delete_by_id(self, id: int):
+        book = self._book_repository.get_by_id(id)
+        if(book is None): return False
+        try:
+            os.remove(book.file.full_path)
+            self._book_repository.delete(book.file.full_path)
+        except Exception as ex:
+            self._logger.exception(ex)
+            return False
+
+        return True
+
+
     def moved(self, from_path: str, to_path: str):
         try:
             self._logger.info("Move book from {from_path} to {to_path}".format(from_path=from_path, to_path=to_path))

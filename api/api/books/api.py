@@ -4,7 +4,7 @@ from flask import request
 from munch import Munch
 
 from .dto import BookDto
-from api.helpers import not_found, no_content, bad_request
+from api.helpers import not_found, no_content, bad_request, ok
 from database.repositories import BookRepository
 from services.book_service import BookService
 
@@ -46,3 +46,10 @@ class BookItem(Resource):
             return no_content()
         else:
             return bad_request()
+
+
+    @api_ns.doc("Delete book")
+    @api_ns.response(204, "Book deleted")
+    def delete(self, id):
+        result = _service.delete_by_id(id)
+        return ok(id) if result else not_found()
