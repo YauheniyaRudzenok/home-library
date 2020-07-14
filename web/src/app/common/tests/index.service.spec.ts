@@ -7,6 +7,8 @@ import { IndexService } from '../index.service';
 
 
 describe('IndexService', () => {
+    const testId = 1;
+
     let service: IndexService;
     let httpService: jasmine.SpyObj<HttpService>;
 
@@ -25,8 +27,6 @@ describe('IndexService', () => {
     })
 
     it('should index library', () => {
-        const testId = 1;
-
         httpService.get.and.returnValue(Observable.create(observer => {
             observer.next(new Object());
         }));
@@ -35,6 +35,18 @@ describe('IndexService', () => {
             expect(result).toBeTruthy();
 
             expect(httpService.get).toHaveBeenCalledWith(`/index/${testId}`);
+        });
+    });
+
+    it('should index book', () => {
+        httpService.get.and.returnValue(Observable.create(observer => {
+            observer.next(new Object());
+        }));
+
+        service.indexBook(testId).subscribe(result => {
+            expect(result).toBeTruthy();
+
+            expect(httpService.get).toHaveBeenCalledWith(`/index/book/${testId}`);
         });
     });
 })

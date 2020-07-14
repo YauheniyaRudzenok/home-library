@@ -7,7 +7,11 @@ import { Observable } from 'rxjs';
 export class IndexService {
     constructor(private http: HttpService){}
 
-    indexLibrary(libraryId: number): Observable<Object> {
+    public indexLibrary(libraryId: number): Observable<Object> {
         return this.http.get(`/index/${libraryId}`);
+    }
+
+    public indexBook(bookId: number): Observable<Object> {
+        return this.http.get(`/index/book/${bookId}`);
     }
 }

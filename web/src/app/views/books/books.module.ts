@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { DataViewModule } from 'primeng/dataview';
 import { InputTextModule } from 'primeng/inputtext';
 import { EditorModule } from 'primeng/editor';
+import { SplitButtonModule } from 'primeng/splitbutton';
 
 import { BooksRoutingModule } from './books-routing.module';
 
@@ -23,7 +24,8 @@ import { ImageService } from '../../common';
         BooksRoutingModule,
         DataViewModule,
         InputTextModule,
-        EditorModule
+        EditorModule,
+        SplitButtonModule
     ],
     declarations: [
         BookDetails,

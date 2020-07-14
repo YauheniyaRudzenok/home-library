@@ -1,7 +1,10 @@
 <div class="p-grid" *ngIf="Book">
     <div class="p-col-2 book-image">
         <img [src]="imageService.prepareBase64Image(Book.file.image)">
-        <button [routerLink]="['/books', Book.id, 'edit']" pButton type="button" icon="pi pi-pencil" iconPos="left" label="Edit"></button>
+        <div class="actions">
+            <button [routerLink]="['/books', Book.id, 'edit']" pButton type="button" icon="pi pi-pencil" iconPos="left" label="Edit"></button>
+            <p-splitButton icon="pi pi-ellipsis-h" [model]="commands"></p-splitButton>
+        </div>
     </div>
     <div class="p-col-10">
         <h2>{{Book.title}}</h2>
