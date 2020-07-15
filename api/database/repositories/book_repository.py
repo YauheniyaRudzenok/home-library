@@ -1,3 +1,5 @@
+from sqlalchemy import or_
+
 from ..models import Book, File
 from ..db import db
 
@@ -63,6 +65,21 @@ class BookRepository:
         return {
             "data": Book.query.offset(offset).limit(count).all(),
             "count": Book.query.count()
+        }
+
+
+    def search(self, pattern: str, offset: int, count: int):
+        query = Book.query.filter(
+            or_(
+                Book.title.contains(pattern),
+                Book.description.contains(pattern),
+                Book.authors.contains(pattern)
+            )
+        )
+
+        return {
+            "data": query.offset(offset).limit(count).all(),
+            "count": query.count()
         }
 
 

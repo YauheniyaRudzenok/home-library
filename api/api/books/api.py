@@ -23,6 +23,16 @@ class BookList(Resource):
         return _repository.get_list(offset, count)
 
 
+@api_ns.route("/<string:pattern>/<int:offset>/<int:count>")
+@api_ns.param("pattern", "The search pattern")
+@api_ns.param("offset", "The offset from the beginning")
+@api_ns.param("count", "The count of returning books")
+class BookList(Resource):
+    @api_ns.marshal_list_with(BookDto.page)
+    def get(self, pattern: str, offset: int, count: int):
+        return _repository.search(pattern, offset, count)
+
+
 @api_ns.route("/<int:id>")
 @api_ns.response(404, "Book does not found")
 @api_ns.param("id", "The book id")
