@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { IPage } from '../models/book.model';
 import { BookService } from '../services/book.service';
@@ -11,24 +11,30 @@ import { ImageService } from '../../../common';
     styleUrls:['./books-list.component.scss']
 })
 export class BooksList implements OnInit {
-    constructor(private router: Router, 
+    private readonly StartOffset: number = 0;
+    private readonly Count: number = 18;
+    private pattern: string;
+
+    constructor(private route: ActivatedRoute, 
         private bookService: BookService,
         public imageService: ImageService) { }
 
     Page: IPage;
 
     ngOnInit(): void {
-         this.bookService.getBooks(0, 18).subscribe((page: IPage) => {
-            if(page?.data.length > 0) {
-                this.Page = page;
-            } else {
-                this.router.navigateByUrl('/libraries/manage');
-            }
-        });
+        this.pattern = this.route.snapshot.paramMap.get('pattern');
     }
 
     loadBooks(event) {
-        this.bookService.getBooks(event.first, event.rows).subscribe((page: IPage) => {
+        this.retrieveBooks(event.first, event.rows);
+    }
+
+    private retrieveBooks(offset: number, count: number): void {
+        const observable = this.pattern
+            ? this.bookService.search(this.pattern, offset, count)
+            : this.bookService.getBooks(offset, count);
+
+        observable.subscribe((page: IPage) => {
             this.Page = page;
         });
     }

@@ -25,4 +25,8 @@ export class BookService {
     public delete(id: number): Observable<Object> {
         return this.http.delete(`/books/${id}`);
     }
+
+    public search(pattern: string, offset: number, count: number): Observable<IPage> {
+        return this.http.get<IPage>(`/books/${pattern}/${offset}/${count}`);
+    }
 }

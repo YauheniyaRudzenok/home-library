@@ -15,6 +15,9 @@ describe('BookService', () => {
         id:1,
         title:''
     };
+    const offset: number = 10;
+    const count: number = 20;
+    const page: IPage = { count:10, data: [book] };
 
     let service: BookService;
     let httpService: jasmine.SpyObj<HttpService>;
@@ -34,10 +37,6 @@ describe('BookService', () => {
     })
 
     it('should get books', () => {
-        const offset: number = 10;
-        const count: number = 20;
-        const page: IPage = { count:10, data: [book] };
-
         httpService.get.and.returnValue(Observable.create(observer => {
             observer.next(page);
         }));
@@ -78,6 +77,20 @@ describe('BookService', () => {
 
         service.delete(id).subscribe(result => {
             expect(httpService.delete).toHaveBeenCalledWith(`/books/${id}`);
+        });
+    });
+
+    it('should search books', () => {
+        const pattern: string = 'cool';
+
+        httpService.get.and.returnValue(Observable.create(observer => {
+            observer.next(page);
+        }));
+
+        service.search(pattern, offset, count).subscribe(result => {
+            expect(result).toEqual(page);
+
+            expect(httpService.get).toHaveBeenCalledWith(`/books/${pattern}/${offset}/${count}`);
         });
     });
 });

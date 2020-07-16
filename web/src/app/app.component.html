@@ -4,7 +4,7 @@
       <a routerLink="/">Home Library</a>
     </div>
     <div class="search">
-      <input type="text" placeholder="Search...">
+      <input #pattern type="text" placeholder="Search..." (keyup.enter)="search(pattern.value)">
     </div>
     <div class="actions">
       <a routerLink="/libraries"><i class="pi pi-cog"></i></a>
