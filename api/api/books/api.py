@@ -1,5 +1,5 @@
 from flask_restx import Resource
-from flask import request
+from flask import request, send_from_directory
 
 from munch import Munch
 
@@ -63,3 +63,17 @@ class BookItem(Resource):
     def delete(self, id):
         result = _service.delete_by_id(id)
         return ok(id) if result else not_found()
+
+
+@api_ns.route("/<int:id>/file")
+@api_ns.response(404, "Book does not found")
+@api_ns.param("id", "The book id")
+class BookFile(Resource):
+    @api_ns.doc("Get book file")
+    @api_ns.response(200, "Book file")
+    def get(self, id):
+        book = _repository.get_by_id(id)
+        if book is not None:
+            return send_from_directory(book.file.path, book.file.file_name)
+        else:
+            return not_found()
