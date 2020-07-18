@@ -29,4 +29,8 @@ export class BookService {
     public search(pattern: string, offset: number, count: number): Observable<IPage> {
         return this.http.get<IPage>(`/books/${pattern}/${offset}/${count}`);
     }
+
+    public download(id: number): Observable<Blob> {
+        return this.http.getBlob(`/books/${id}/file`);
+    }
 }

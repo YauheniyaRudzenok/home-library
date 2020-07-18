@@ -29,6 +29,27 @@ export class BookDetails implements OnInit {
         this.getBook();        
     }
 
+    download(): void {
+        this.bookService.download(this.Book.id).subscribe((data: Blob) => {
+            const objectUrl = window.URL.createObjectURL(data);
+
+            var link = document.createElement('a');
+            link.href = objectUrl;
+            link.download = this.Book.file.file_name;
+            link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+
+            setTimeout(function () {
+                window.URL.revokeObjectURL(objectUrl);
+                link.remove();
+            }, 100);
+        },
+        error => this.messageService.add({severity:'error', summary:'Error of downloading the book'}));
+    }
+
+    edit(): void {
+        this.router.navigateByUrl(`/books/${this.Book.id}/edit`);
+    }
+
     private getBook(): void {
         const id = +this.route.snapshot.paramMap.get('id');
 

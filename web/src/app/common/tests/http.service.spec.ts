@@ -41,6 +41,18 @@ describe('HttpService', () => {
         });
     });
 
+    it('should get blob', () => {
+        httpClient.get.and.returnValue(Observable.create(observer => {
+            observer.next(new Blob());
+        }));
+
+        service.getBlob(testUrl).subscribe((result: Blob) => {
+            expect(result).toBeTruthy();
+
+            expect(httpClient.get).toHaveBeenCalledWith(environment.api + testUrl, Object({ responseType: 'blob' }));
+        });
+    });
+
     it('should post', () => {
         httpClient.post.and.returnValue(Observable.create(observer => {
             observer.next(expectedPath);

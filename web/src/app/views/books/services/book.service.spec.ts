@@ -23,7 +23,7 @@ describe('BookService', () => {
     let httpService: jasmine.SpyObj<HttpService>;
 
     beforeEach(() => {
-        var spy = jasmine.createSpyObj('HttpService', ['get', 'put', 'delete']);
+        var spy = jasmine.createSpyObj('HttpService', ['get', 'put', 'delete', 'getBlob']);
 
         TestBed.configureTestingModule({
             providers: [
@@ -91,6 +91,16 @@ describe('BookService', () => {
             expect(result).toEqual(page);
 
             expect(httpService.get).toHaveBeenCalledWith(`/books/${pattern}/${offset}/${count}`);
+        });
+    });
+
+    it('should download book', () => {
+        httpService.getBlob.and.returnValue(Observable.create(observer => {
+            observer.next();
+        }));
+
+        service.download(id).subscribe(result => {
+            expect(httpService.getBlob).toHaveBeenCalledWith(`/books/${id}/file`);
         });
     });
 });

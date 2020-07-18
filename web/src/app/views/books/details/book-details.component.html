@@ -2,8 +2,8 @@
     <div class="p-col-2 book-image">
         <img [src]="imageService.prepareBase64Image(Book.file.image)">
         <div class="actions">
-            <button [routerLink]="['/books', Book.id, 'edit']" pButton type="button" icon="pi pi-pencil" iconPos="left" label="Edit"></button>
-            <p-splitButton icon="pi pi-ellipsis-h" [model]="commands"></p-splitButton>
+            <button (click)="download()" pButton type="button" icon="pi pi-download" iconPos="left" label="Download"></button>
+            <p-splitButton icon="pi pi-pencil" (onClick)="edit()" [model]="commands"></p-splitButton>
         </div>
     </div>
     <div class="p-col-10">

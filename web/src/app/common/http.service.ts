@@ -13,6 +13,10 @@ export class HttpService {
         return this.http.get<T>(this.getUrl(url))
     }
 
+    public getBlob(url: string): Observable<Blob> {
+        return this.http.get(this.getUrl(url), { responseType: 'blob' })
+    }
+
     public delete(url: string): Observable<Object> {
         return this.http.delete(this.getUrl(url));
     }

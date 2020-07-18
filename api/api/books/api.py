@@ -74,6 +74,6 @@ class BookFile(Resource):
     def get(self, id):
         book = _repository.get_by_id(id)
         if book is not None:
-            return send_from_directory(book.file.path, book.file.file_name)
+            return send_from_directory(book.file.path, book.file.file_name, as_attachment=True)
         else:
             return not_found()

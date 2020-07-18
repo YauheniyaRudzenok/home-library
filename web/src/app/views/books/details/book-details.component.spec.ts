@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
@@ -31,6 +31,7 @@ describe('BookDetails', () => {
     let component: BookDetails;
     let bookService: jasmine.SpyObj<BookService>;
     let indexService: jasmine.SpyObj<IndexService>;
+    let router: jasmine.SpyObj<Router>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -43,8 +44,9 @@ describe('BookDetails', () => {
             ],
             declarations: [BookDetails],
             providers: [
-                { provide: BookService, useValue: jasmine.createSpyObj('BookService', ['getBook', 'delete']) },
+                { provide: BookService, useValue: jasmine.createSpyObj('BookService', ['getBook', 'delete', 'download']) },
                 { provide: IndexService, useValue: jasmine.createSpyObj('IndexService', ['indexBook'])},
+                { provide: Router, useValue: jasmine.createSpyObj('Router', ['navigateByUrl'])},
                 { 
                     provide: ActivatedRoute, 
                     useValue: {
@@ -65,6 +67,7 @@ describe('BookDetails', () => {
         component = fixture.componentInstance;
         bookService = TestBed.inject(BookService) as jasmine.SpyObj<BookService>;
         indexService = TestBed.inject(IndexService) as jasmine.SpyObj<IndexService>;
+        router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
     });
 
     describe('ngOnInit', () => {
@@ -171,6 +174,50 @@ describe('BookDetails', () => {
             expect(toastMessage.nativeElement.classList).toContain("ui-toast-message-error");
 
             expect(bookService.delete).toHaveBeenCalledWith(id);
+        });
+    });
+
+    describe('edit', () => {
+        it('should navigate to edit page', () => {
+            component.Book = book;
+            component.edit();
+
+            expect(router.navigateByUrl).toHaveBeenCalledWith(`/books/${book.id}/edit`);
+        });
+    });
+
+    describe('download', () => {
+        it('should download book file', () => {
+            bookService.download.and.returnValue(Observable.create(observer => {
+                observer.next(new Blob());
+            }));
+
+            component.Book = book;
+            component.download();
+
+            expect(bookService.download).toHaveBeenCalledWith(book.id);
+        });
+
+        it('should show toast when error happened', () => {
+            bookService.getBook.and.returnValue(Observable.create(observer => {
+                observer.next(book);
+            }));
+
+            bookService.download.and.returnValue(Observable.create(observer => {
+                observer.error();
+            }));
+
+            component.ngOnInit();
+            fixture.detectChanges();
+
+            component.download();
+            fixture.detectChanges();
+
+            expect(bookService.download).toHaveBeenCalledWith(book.id);
+
+            const toastMessage = fixture.debugElement.query(By.css('.ui-toast-message'));
+            expect(toastMessage.nativeElement).toBeTruthy();
+            expect(toastMessage.nativeElement.classList).toContain("ui-toast-message-error");
         });
     });
 });
