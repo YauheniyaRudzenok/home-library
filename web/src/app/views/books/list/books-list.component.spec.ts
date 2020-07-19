@@ -8,7 +8,8 @@ import { DataViewModule } from 'primeng/dataview';
 import { BooksList } from "./books-list.component"
 import { BookService } from '../services/book.service';
 import { IPage, IBook } from '../models/book.model';
-import { ImageService } from '../../../common';
+import { ImageService, SessionStorage } from '../../../common';
+import { Constants } from '../../../constants';
 
 describe('BooksList', () => {
     const pattern: string = 'cool book';
@@ -22,6 +23,7 @@ describe('BooksList', () => {
     let fixture: ComponentFixture<BooksList>;
     let component: BooksList;
     let bookService: jasmine.SpyObj<BookService>;
+    let sessionStorage: jasmine.SpyObj<SessionStorage>;
     let paramMap: jasmine.SpyObj<ParamMap> = jasmine.createSpyObj('ParamMap', ['get']);
 
     beforeEach(() => {
@@ -32,6 +34,7 @@ describe('BooksList', () => {
             declarations: [BooksList],
             providers: [
                 { provide: BookService, useValue: jasmine.createSpyObj('BookService', ['getBooks', 'search']) },
+                { provide: SessionStorage, useValue: jasmine.createSpyObj('SessionStorage', ['getItem', 'setItem'])},
                 { 
                     provide: ActivatedRoute, 
                     useValue: {
@@ -47,15 +50,38 @@ describe('BooksList', () => {
         fixture = TestBed.createComponent(BooksList);
         component = fixture.componentInstance;
         bookService = TestBed.inject(BookService) as jasmine.SpyObj<BookService>;
+        sessionStorage = TestBed.inject(SessionStorage) as jasmine.SpyObj<SessionStorage>;
     });
 
     describe('ngOnInit', () => {
-        it('should get pattern', () => {
+        beforeEach(()=> {
             paramMap.get.and.returnValue(pattern);
+        });
 
+        it('should get pattern', () => {
             component.ngOnInit();
 
             expect(paramMap.get).toHaveBeenCalledWith('pattern');
+        });
+
+        it('should set offset when it exists in session', () => {
+            const testOffset: number = 10;
+
+            sessionStorage.getItem.and.returnValue(testOffset.toString());
+
+            component.ngOnInit();
+
+            expect(component.Offset).toEqual(testOffset);
+            expect(sessionStorage.getItem).toHaveBeenCalledWith(Constants.OffsetKey);
+        });
+
+        it('should set offset to 0 when it doesnot exists in session', () => {
+            sessionStorage.getItem.and.returnValue(null);
+
+            component.ngOnInit();
+
+            expect(component.Offset).toEqual(0);
+            expect(sessionStorage.getItem).toHaveBeenCalledWith(Constants.OffsetKey);
         });
     });
 
@@ -70,6 +96,7 @@ describe('BooksList', () => {
 
             expect(component.Page).toEqual(page)
             expect(bookService.getBooks).toHaveBeenCalledWith(event.first, event.rows);
+            expect(sessionStorage.setItem).toHaveBeenCalledWith(Constants.OffsetKey, event.first as any);
         });
 
         it('should search books with offset and count if pattern is specified', () => {

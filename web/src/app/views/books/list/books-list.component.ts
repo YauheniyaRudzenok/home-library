@@ -3,7 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { IPage } from '../models/book.model';
 import { BookService } from '../services/book.service';
-import { ImageService } from '../../../common';
+import { ImageService, SessionStorage } from '../../../common';
+import { Constants } from '../../../constants';
 
 @Component({
     templateUrl:'./books-list.component.html',
@@ -11,21 +12,28 @@ import { ImageService } from '../../../common';
     styleUrls:['./books-list.component.scss']
 })
 export class BooksList implements OnInit {
-    private readonly StartOffset: number = 0;
-    private readonly Count: number = 18;
     private pattern: string;
 
     constructor(private route: ActivatedRoute, 
         private bookService: BookService,
+        private sessionStorage: SessionStorage,
         public imageService: ImageService) { }
 
     Page: IPage;
+    Count: number = 18;
+    Offset: number = 0;
 
     ngOnInit(): void {
         this.pattern = this.route.snapshot.paramMap.get('pattern');
+
+        const offset = this.sessionStorage.getItem(Constants.OffsetKey);
+
+        this.Offset = offset ? +offset : 0;
     }
 
     loadBooks(event) {
+        this.sessionStorage.setItem(Constants.OffsetKey, event.first);
+
         this.retrieveBooks(event.first, event.rows);
     }
 

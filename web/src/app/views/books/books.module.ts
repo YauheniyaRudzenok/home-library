@@ -18,7 +18,7 @@ import { BooksList } from './list/books-list.component';
 import { BookDetails } from './details/book-details.component';
 import { BookEdit } from './edit/book-edit.component';
 import { BookService } from './services/book.service';
-import { ImageService } from '../../common';
+import { ImageService, SessionStorage } from '../../common';
 
 @NgModule({
     imports: [
@@ -41,6 +41,7 @@ import { ImageService } from '../../common';
     providers:[
         BookService,
         ImageService,
+        SessionStorage,
         ConfirmationService,
         MessageService
     ]
