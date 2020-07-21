@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api: 'http://masden-server:11000'
+  api: 'http://localhost:11000'
 };
