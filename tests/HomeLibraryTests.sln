@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30517.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UITests", "UITests\UITests.csproj", "{C1FE34BE-BF26-4049-A314-0EF371F63620}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{3DB4106E-9D1C-4DA1-87A9-51BB8C64814E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C1FE34BE-BF26-4049-A314-0EF371F63620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1FE34BE-BF26-4049-A314-0EF371F63620}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1FE34BE-BF26-4049-A314-0EF371F63620}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1FE34BE-BF26-4049-A314-0EF371F63620}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DB4106E-9D1C-4DA1-87A9-51BB8C64814E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DB4106E-9D1C-4DA1-87A9-51BB8C64814E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DB4106E-9D1C-4DA1-87A9-51BB8C64814E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DB4106E-9D1C-4DA1-87A9-51BB8C64814E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {03C68969-F529-4896-A93F-2090B448F540}
+	EndGlobalSection
+EndGlobal

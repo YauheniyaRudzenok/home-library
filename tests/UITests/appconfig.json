@@ -1,0 +1,8 @@
+﻿{
+  "appSettings": {
+    "webURL": "http://localhost:4200/"
+  },
+  "browserSettings": {
+    "browser": "Chrome"
+  }
+}
